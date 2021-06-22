@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<!-- PROPERTIES -->
+	<properties>
+		<com.softwarelma.ers_boot_wre.version>0.0.1-SNAPSHOT</com.softwarelma.ers_boot_wre.version>
+		<com.softwarelma.epe.version>1.3.2-SNAPSHOT</com.softwarelma.epe.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.8</jdk.version>
+		<java.version>${jdk.version}</java.version>
+	</properties>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.softwarelma</groupId>
+	<artifactId>ers_boot_wre</artifactId>
+	<!-- <packaging>jar</packaging> -->
+	<version>${com.softwarelma.ers_boot_wre.version}</version>
+	<name>ERSBootWRE</name>
+	<description>From ers_boot - Rest service for upload/download files and invoking specific R scripts</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.5.RELEASE</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.softwarelma</groupId>
+			<artifactId>epe</artifactId>
+			<version>${com.softwarelma.epe.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}-${com.softwarelma.ers_boot_wre.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-eclipse-plugin</artifactId> -->
+			<!-- <version>2.9</version> -->
+			<!-- <configuration> -->
+			<!-- Always download and attach dependencies source code -->
+			<!-- <downloadSources>true</downloadSources> -->
+			<!-- <downloadJavadocs>false</downloadJavadocs> -->
+			<!-- Avoid type mvn eclipse:eclipse -Dwtpversion=2.0 -->
+			<!-- <wtpversion>2.0</wtpversion> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
