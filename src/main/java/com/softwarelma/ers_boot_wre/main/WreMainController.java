@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softwarelma.ers_boot_wre.engine.WreEngine;
-import com.softwarelma.ers_boot_wre.rest.WreRestReq;
-import com.softwarelma.ers_boot_wre.rest.WreRestResp;
+import com.softwarelma.ers_boot_wre.rest.WreRestReqCommand;
+import com.softwarelma.ers_boot_wre.rest.WreRestReqPostFile;
+import com.softwarelma.ers_boot_wre.rest.WreRestRespCommand;
+import com.softwarelma.ers_boot_wre.rest.WreRestRespGetFile;
+import com.softwarelma.ers_boot_wre.rest.WreRestRespPostFile;
 
 /**
  * see https://spring.io/guides/gs/rest-service-cors/
@@ -25,20 +28,32 @@ public class WreMainController {
 	private final WreEngine engine = new WreEngine();
 
 	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN)
-	@GetMapping("/rest/getFile/{suffix}")
-	public WreRestResp getFile(HttpServletResponse httpServletResponse, @PathVariable String suffix) {
-		logger.info("getFile - begin - suffix: " + suffix);
-		WreRestResp resp = this.engine.getFile(suffix);
-		logger.info("getFile - end");
+	@PostMapping(path = "/rest/postFile", consumes = "application/json", produces = "application/json")
+	public WreRestRespPostFile postFile(HttpServletResponse httpServletResponse, @RequestBody WreRestReqPostFile req) {
+		logger.info("postFile - begin");
+		WreRestRespPostFile resp = this.engine.postFile(req);
+		logger.info("postFile - end");
 		return resp;
 	}
 
 	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN)
-	@PostMapping(path = "/rest/postFile", consumes = "application/json", produces = "application/json")
-	public WreRestResp postFile(HttpServletResponse httpServletResponse, @RequestBody WreRestReq req) {
-		logger.info("postFile - begin");
-		WreRestResp resp = this.engine.postFile(req);
-		logger.info("postFile - end");
+	@PostMapping(path = "/rest/postExecuteCommand", consumes = "application/json", produces = "application/json")
+	public WreRestRespCommand postExecuteCommand(HttpServletResponse httpServletResponse, @RequestBody WreRestReqCommand req) {
+		logger.info("postExecuteCommand - begin");
+		logger.info(" - rFile = " + req.getrFile());
+		logger.info(" - params = " + req.getParams());
+		WreRestRespCommand resp = this.engine.postExecuteCommand(req);
+		logger.info("postExecuteCommand - end");
+		return resp;
+	}
+
+	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN)
+	@GetMapping("/rest/getFile/{suffix}")
+	public WreRestRespGetFile getFile(HttpServletResponse httpServletResponse, @PathVariable String suffix) {
+		logger.info("getFile - begin");
+		logger.info(" - suffix = " + suffix);
+		WreRestRespGetFile resp = this.engine.getFile(suffix);
+		logger.info("getFile - end");
 		return resp;
 	}
 

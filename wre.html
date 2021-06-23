@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script>
+<script>
 	function restCallPostFile(file) {
 		const xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
-			 if (this.readyState == 4 && this.status == 200) {
-				 console.log(this.responseText);
-			 }
+			if (this.readyState == 4 && this.status == 200) {
+				console.log(this.responseText);
+			}
 		};
 		xhttp.open("POST", "http://localhost:8081/rest/postFile", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		const req = JSON.stringify({ "file": file });
 		xhttp.send(req);
 	}
+	function restCallPostExecuteCommand(rFile, params) {
+		const xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				console.log(this.responseText);
+				const resp = JSON.parse(this.responseText);
+				document.getElementById('idTextSuffix').value = resp.suffix;
+			}
+		};
+		xhttp.open("POST", "http://localhost:8081/rest/postExecuteCommand", true);
+		xhttp.setRequestHeader("Content-Type", "application/json");
+		const req = JSON.stringify({ rFile, params });
+		xhttp.send(req);
+	}
 	function restCallGetFile(suffix) {
 		const xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
-			 if (this.readyState == 4 && this.status == 200) {
+			if (this.readyState == 4 && this.status == 200) {
 				const resp = JSON.parse(this.responseText);
 				console.log(resp.state);
 				downloadURI("data:application/zip;base64," + resp.file.base64, suffix + ".zip");
-			 }
+			}
 		};
 		xhttp.open("GET", "http://localhost:8081/rest/getFile/" + suffix, true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
@@ -89,13 +103,33 @@
 		console.log('using suffix: ' + suffix);
 		restCallGetFile(suffix);
 	}
+	function executeCommand(){
+		const rFile = document.getElementById('idTextRFile').value
+		let params = document.getElementById('idTextareaParams').value
+		params = params.split('\n').join(' ');
+		console.log('rFile = ' + rFile);
+		console.log('params = ' + params);
+		restCallPostExecuteCommand(rFile, params);
+	}
 	</script>
 </head>
 <body>
-	<input id="idUploadFile" onchange="uploadFile(event)" type="file" style="display: none;">
-	<input onclick="document.getElementById('idUploadFile').click()" type="button" value="Upload file">
-	<br /><br />
-	<input id="idTextSuffix" type="text" placeholder="suffix" value="Development.txt">
-	<input id="idDownloadFile" onclick="downloadFile(document.getElementById('idTextSuffix').value)" type="button" value="Download files">
+	<input id="idUploadFile" onchange="uploadFile(event)" type="file"
+		style="display: none;">
+	<input onclick="document.getElementById('idUploadFile').click()"
+		type="button" value="Upload file">
+	<br />
+	<br />
+	<input id="idTextRFile" type="text" placeholder="R file">
+	<br />
+	<textarea id="idTextareaParams" placeholder="one parameter for each line" cols="50" rows="10"></textarea>
+	<br />
+	<input onclick="executeCommand()" type="button" value="Execute command">
+	<br />
+	<br />
+	<input id="idTextSuffix" type="text" placeholder="suffix">
+	<input id="idDownloadFile"
+		onclick="downloadFile(document.getElementById('idTextSuffix').value)"
+		type="button" value="Download files">
 </body>
 </html>
