@@ -70,8 +70,26 @@ public class WreEngine {
 		String command = String.format(WreMainConstant.COMMAND, req.getrFile(), req.getParams(), suffix);
 		logger.info(" - command = " + command);
 		try {
-			String output = EpeGenericFinalExec_shell.execShellScript(command, new ArrayList<String>());
+			List<String> listFinalOutput = new ArrayList<>();
+			String output = EpeGenericFinalExec_shell.execShellScript(command, new ArrayList<>(), listFinalOutput);
+			output += output.equals("0") ? " (OK)" : " (KO)";
 			logger.info(" - output = " + output);
+			if (output.contains("KO")) {
+				resp.getState().setCode(WreMainConstant.STATE_CODE_ERROR_EXECUTION_ENDED_WITH_ERROR);
+				resp.getState().setType(WreMainConstant.STATE_TYPE_ERROR);
+				resp.getState().setDescr(WreMainConstant.STATE_DESCR_ERROR_EXECUTION_ENDED_WITH_ERROR);
+				return resp;
+			}
+			for (String finalOutput : listFinalOutput) {
+				if (finalOutput == null || finalOutput.trim().isEmpty())
+					continue;
+				if (finalOutput.toLowerCase().contains("error in") || finalOutput.toLowerCase().contains("execution halted")) {
+					resp.getState().setCode(WreMainConstant.STATE_CODE_ERROR_EXECUTION_HALTED);
+					resp.getState().setType(WreMainConstant.STATE_TYPE_ERROR);
+					resp.getState().setDescr(WreMainConstant.STATE_DESCR_ERROR_EXECUTION_HALTED);
+					return resp;
+				}
+			}
 		} catch (EpeAppException e) {
 			String msg = WreMainConstant.STATE_DESCR_ERROR_EXECUTING_SHELL_SCRIPT;
 			logger.log(Level.SEVERE, msg, e);
