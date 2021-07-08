@@ -9,7 +9,7 @@
 				console.log(this.responseText);
 			}
 		};
-		xhttp.open("POST", "http://localhost:8081/rest/postFile", true);
+		xhttp.open("POST", "https://localhost:8443/rest/postFile", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		const req = JSON.stringify({ "file": file });
 		xhttp.send(req);
@@ -23,7 +23,7 @@
 				document.getElementById('idTextSuffix').value = resp.suffix;
 			}
 		};
-		xhttp.open("POST", "http://localhost:8081/rest/postExecuteCommand", true);
+		xhttp.open("POST", "https://localhost:8443/rest/postExecuteCommand", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		const req = JSON.stringify({ rFile, params });
 		xhttp.send(req);
@@ -37,7 +37,7 @@
 				downloadURI("data:application/zip;base64," + resp.file.base64, suffix + ".zip");
 			}
 		};
-		xhttp.open("GET", "http://localhost:8081/rest/getFile/" + suffix, true);
+		xhttp.open("GET", "https://localhost:8443/rest/getFile/" + suffix, true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		xhttp.send();
 	}
