@@ -27,7 +27,7 @@ public class WreMainController {
 	private static final Logger logger = Logger.getLogger(WreMainController.class.getName());
 	private final WreEngine engine = new WreEngine();
 
-	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN)
+	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN, allowedHeaders = "*")
 	@PostMapping(path = "/rest/postFile", consumes = "application/json", produces = "application/json")
 	public WreRestRespPostFile postFile(HttpServletResponse httpServletResponse, @RequestBody WreRestReqPostFile req) {
 		logger.info("postFile - begin");
@@ -36,9 +36,10 @@ public class WreMainController {
 		return resp;
 	}
 
-	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN)
+	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN, allowedHeaders = "*")
 	@PostMapping(path = "/rest/postExecuteCommand", consumes = "application/json", produces = "application/json")
-	public WreRestRespCommand postExecuteCommand(HttpServletResponse httpServletResponse, @RequestBody WreRestReqCommand req) {
+	public WreRestRespCommand postExecuteCommand(HttpServletResponse httpServletResponse,
+			@RequestBody WreRestReqCommand req) {
 		logger.info("postExecuteCommand - begin");
 		logger.info(" - rFile = " + req.getrFile());
 		logger.info(" - params = " + req.getParams());
@@ -47,7 +48,7 @@ public class WreMainController {
 		return resp;
 	}
 
-	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN)
+	@CrossOrigin(origins = WreMainConstant.CORS_ORIGIN, allowedHeaders = "*")
 	@GetMapping("/rest/getFile/{suffix}")
 	public WreRestRespGetFile getFile(HttpServletResponse httpServletResponse, @PathVariable String suffix) {
 		logger.info("getFile - begin");

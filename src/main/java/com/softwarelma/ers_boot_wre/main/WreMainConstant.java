@@ -15,7 +15,7 @@ public class WreMainConstant {
 	public static final String FOLDER_DOWNLOAD = isProd() ? FOLDER_DOWNLOAD_PRODUCTION : FOLDER_DOWNLOAD_DEVELOP;
 
 	public static final String COMMAND_DEVELOP = "echo file=%s params=%s\necho suffix=%s\nexit";
-	public static final String COMMAND_PRODUCTION = "Rscript /home/rserver/PHYTO/PhytoScripts/%s %s %s\nexit";
+	public static final String COMMAND_PRODUCTION = "Rscript /home/rserver/PHYTO/PhytoScripts/%s /media/rserver/PhytoFiles/%s %s\nexit\n";
 	public static final String COMMAND = isProd() ? COMMAND_PRODUCTION : COMMAND_DEVELOP;
 
 	public static final int STATE_CODE_OK = 1;
