@@ -78,6 +78,7 @@ public class WreEngine {
 				resp.getState().setCode(WreMainConstant.STATE_CODE_ERROR_EXECUTION_ENDED_WITH_ERROR);
 				resp.getState().setType(WreMainConstant.STATE_TYPE_ERROR);
 				resp.getState().setDescr(WreMainConstant.STATE_DESCR_ERROR_EXECUTION_ENDED_WITH_ERROR);
+				resp.setSuffix(suffix);
 				return resp;
 			}
 			for (String finalOutput : listFinalOutput) {
