@@ -2,6 +2,18 @@
 <html>
 <head>
 <script>
+	function restCallPostUrl(url) {
+		const xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				console.log(this.responseText);
+			}
+		};
+		xhttp.open("POST", "http://localhost:8081/rest/postUrl", true);
+		xhttp.setRequestHeader("Content-Type", "application/json");
+		const req = JSON.stringify({ "url": url});
+		xhttp.send(req);
+	}
 	function restCallPostFile(file) {
 		const xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -9,11 +21,25 @@
 				console.log(this.responseText);
 			}
 		};
-		xhttp.open("POST", "https://localhost:8443/rest/postFile", true);
+		xhttp.open("POST", "http://localhost:8081/rest/postFile", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		const req = JSON.stringify({ "file": file });
 		xhttp.send(req);
 	}
+
+	function restCallPostValidateCsv(filename, listHeader) {
+		const xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				console.log(this.responseText);
+			}
+		};
+		xhttp.open("POST", "http://localhost:8081/rest/postValidateCsv", true);
+		xhttp.setRequestHeader("Content-Type", "application/json");
+		const req = JSON.stringify({ "filename": filename, "listHeader": listHeader });
+		xhttp.send(req);
+	}
+
 	function restCallPostExecuteCommand(rFile, params) {
 		const xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
@@ -23,12 +49,12 @@
 				document.getElementById('idTextSuffix').value = resp.suffix;
 			}
 		};
-		xhttp.open("POST", "https://localhost:8443/rest/postExecuteCommand", true);
+		xhttp.open("POST", "http://localhost:8081/rest/postExecuteCommand", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
 		const req = JSON.stringify({ rFile, params });
 		xhttp.send(req);
 	}
-	function restCallGetFile(suffix) {
+	function restCallPostCreateZip(suffix) {
 		const xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -37,9 +63,10 @@
 				downloadURI("data:application/zip;base64," + resp.file.base64, suffix + ".zip");
 			}
 		};
-		xhttp.open("GET", "https://localhost:8443/rest/getFile/" + suffix, true);
+		xhttp.open("POST", "http://localhost:8081/rest/postCreateZip", true);
 		xhttp.setRequestHeader("Content-Type", "application/json");
-		xhttp.send();
+		const req = JSON.stringify({ "suffix": suffix });
+		xhttp.send(req);
 	}
 	function downloadURI(uri, name) {
 		const link = document.createElement("a");
@@ -101,7 +128,7 @@
 	}
 	function downloadFile(suffix){
 		console.log('using suffix: ' + suffix);
-		restCallGetFile(suffix);
+		restCallPostCreateZip(suffix);
 	}
 	function executeCommand(){
 		const rFile = document.getElementById('idTextRFile').value
@@ -114,20 +141,36 @@
 	</script>
 </head>
 <body>
+	<h4>POST URL</h4>
+	<input id="idUrl" type="text" placeholder="URL" style="width: 350px">
+	<br />
+	<input onclick="restCallPostFile(document.getElementById('idUrl').value)"
+		type="button" value="Retrieve file">
+
+	<h4>POST FILE</h4>
 	<input id="idUploadFile" onchange="uploadFile(event)" type="file"
 		style="display: none;">
 	<input onclick="document.getElementById('idUploadFile').click()"
 		type="button" value="Upload file">
+
+	<h4>VALIDATE CSV</h4>
+	<input id="idFilename" type="text" placeholder="filename" style="width: 350px">
 	<br />
+	<input id="idListHeader" type="text" placeholder="required headers (eg a;b)" style="width: 350px">
 	<br />
-	<input id="idTextRFile" type="text" placeholder="R file">
+	<input onclick="restCallPostValidateCsv(document.getElementById('idFilename').value, document.getElementById('idListHeader').value)"
+		type="button" value="Validate CSV">
+
+	<h4>EXECUTE</h4>
+	<input id="idTextRFile" type="text" placeholder="R file" style="width: 350px">
 	<br />
 	<textarea id="idTextareaParams" placeholder="one parameter for each line" cols="50" rows="10"></textarea>
 	<br />
 	<input onclick="executeCommand()" type="button" value="Execute command">
+
+	<h4>DOWNLOAD ZIP</h4>
+	<input id="idTextSuffix" type="text" placeholder="suffix" style="width: 350px">
 	<br />
-	<br />
-	<input id="idTextSuffix" type="text" placeholder="suffix">
 	<input id="idDownloadFile"
 		onclick="downloadFile(document.getElementById('idTextSuffix').value)"
 		type="button" value="Download files">

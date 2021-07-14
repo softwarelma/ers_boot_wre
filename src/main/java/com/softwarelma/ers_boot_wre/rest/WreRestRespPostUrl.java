@@ -2,13 +2,11 @@ package com.softwarelma.ers_boot_wre.rest;
 
 import java.io.Serializable;
 
-import com.softwarelma.ers_boot_wre.model.WreModelFile;
-
-public class WreRestRespGetFile implements Serializable {
+public class WreRestRespPostUrl implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private WreRestState state = new WreRestState();
-	private WreModelFile file;
+	private String filename;
 
 	public WreRestState getState() {
 		return state;
@@ -18,12 +16,12 @@ public class WreRestRespGetFile implements Serializable {
 		this.state = state;
 	}
 
-	public WreModelFile getFile() {
-		return file;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setFile(WreModelFile file) {
-		this.file = file;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
 }
