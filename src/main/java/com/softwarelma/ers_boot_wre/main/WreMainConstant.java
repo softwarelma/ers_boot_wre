@@ -4,7 +4,7 @@ public class WreMainConstant {
 
 	public static final String CORS_ORIGIN_DEVELOP = "*";
 	public static final String CORS_ORIGIN_PRODUCTION = "https://www.phytovre.lifewatchitaly.eu";
-	public static final String CORS_ORIGIN = CORS_ORIGIN_DEVELOP; // FIXME unica costante da settare
+	public static final String CORS_ORIGIN = CORS_ORIGIN_PRODUCTION; // FIXME unica costante da settare
 
 	public static final String FOLDER_UPLOAD_DEVELOP = "C:/develop/workspaces/wre";
 	public static final String FOLDER_UPLOAD_PRODUCTION = "/media/rserver/PhytoFiles";
