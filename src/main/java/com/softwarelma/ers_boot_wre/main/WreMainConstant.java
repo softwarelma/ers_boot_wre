@@ -47,9 +47,9 @@ public class WreMainConstant {
 	public static final String STATE_DESCR_ERROR_READING_SITE = "Error reading site content from URL: \"%s\".";
 	public static final String STATE_DESCR_ERROR_READING_SITE_FILENAME = "Error reading site filename from URL: \"%s\".";
 	public static final String STATE_DESCR_ERROR_LIST_HEADER_NOT_FOUND = "List of headers not found.";
-	public static final String STATE_DESCR_ERROR_FILENAME_NOT_FOUND = "List of headers not found.";
+	public static final String STATE_DESCR_ERROR_FILENAME_NOT_FOUND = "Filename not found.";
 	public static final String STATE_DESCR_ERROR_HEADER_LINE_NOT_FOUND = "Header line not found.";
-	public static final String STATE_DESCR_ERROR_HEADERS_NOT_FOUND = "The following headers are missing: %s.";
+	public static final String STATE_DESCR_ERROR_HEADERS_NOT_FOUND = "The following headers are missing in the selected dataset file: %s.";
 
 	private static boolean isProd() {
 		return CORS_ORIGIN == CORS_ORIGIN_PRODUCTION;
